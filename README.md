@@ -8,8 +8,8 @@ Descrption: Sgrstlfr(Synthetic genome reconstrution by single tube long fragment
 **The simple useage:
 The program only needs to contain the following basic parameters to run
 
---fa ; The fasta file of the unSCRaMbLE genome that has been indexed.
---fq1 : 1-end fastq file of stLFR paired-end sequencing.
+--fa ; The fasta file of the unSCRaMbLE genome that has been indexed.<br>
+--fq1 : 1-end fastq file of stLFR paired-end sequencing.  
 --fq2 : 2-terminal fastq file of stLFR paired-end sequencing.
 --rfcvg : Sequencing depth file for the unSCRaMbLE genome
 --n : The output process file and the file name of the result. [Note: The pre-file name of the process file search]
