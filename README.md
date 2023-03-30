@@ -10,16 +10,16 @@ The program only needs to contain the following basic parameters to run
 
 --fa ; The fasta file of the unSCRaMbLE genome that has been indexed.<br>
 --fq1 : 1-end fastq file of stLFR paired-end sequencing.  
---fq2 : 2-terminal fastq file of stLFR paired-end sequencing.
---rfcvg : Sequencing depth file for the unSCRaMbLE genome
---n : The output process file and the file name of the result. [Note: The pre-file name of the process file search]
---o : The output process file and the final result path. [Note: The path to find the process file]
---step : The steps of the program running, divided into three types [all | assembly |others].
-all: run all steps [default]; assembly: only run module 7, the process file containing modules 4-6 is required! ! ! ;others: specify the corresponding run steps (likes 4,5,6,7)
---chrtype : type of synthetic chromosome, linear or circular [default: cycle]
---chrid : synthetic chromosome name [default:IXR_BACseq]
---t : Number of threads for software comparison to run [default: 4]
---tools : Enter the relevant software path: including bwa, bowtie2, bamdeal, soapnuke, etc.
+--fq2 : 2-terminal fastq file of stLFR paired-end sequencing.  
+--rfcvg : Sequencing depth file for the unSCRaMbLE genome.  
+--n : The output process file and the file name of the result. [Note: The pre-file name of the process file search]  
+--o : The output process file and the final result path. [Note: The path to find the process file]  
+--step : The steps of the program running, divided into three types [all | assembly |others].  
+all: run all steps [default]; assembly: only run module 7, the process file containing modules 4-6 is required! ! ! ;others: specify the corresponding run steps (likes 4,5,6,7)  
+--chrtype : type of synthetic chromosome, linear or circular [default: cycle]  
+--chrid : synthetic chromosome name [default:IXR_BACseq]  
+--t : Number of threads for software comparison to run [default: 4]  
+--tools : Enter the relevant software path: including bwa, bowtie2, bamdeal, soapnuke, etc.  
 
 **For example: 
 -> perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg JS94.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step all
