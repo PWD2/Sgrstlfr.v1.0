@@ -7,9 +7,9 @@ Descrption: Sgrstlfr(Synthetic genome reconstrution by single tube long fragment
 
 **The simple useage:
 The program only needs to contain the following basic parameters to run
-``
 
---fa : The fasta file of the unSCRaMbLE genome that has been indexed.
+
+`--fa : The fasta file of the unSCRaMbLE genome that has been indexed.
 
 --fq1 : 1-end fastq file of stLFR paired-end sequencing.
 
@@ -30,9 +30,9 @@ all: run all steps [default]; assembly: only run module 7, the process file cont
 
 --t : Number of threads for software comparison to run [default: 4]  
 
---tools : Enter the relevant software path: including bwa, bowtie2, bamdeal, soapnuke, etc.  
+--tools : Enter the relevant software path: including bwa, bowtie2, bamdeal, soapnuke, etc.`  
 
-``
+
 **For example:   
 -> perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg JS94.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step all  
 -> perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg JS94.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step 6,7 -sp_minus max 
