@@ -22,13 +22,13 @@ all: run all steps [default]; assembly: only run module 7, the process file cont
 --tools : Enter the relevant software path: including bwa, bowtie2, bamdeal, soapnuke, etc.  
 
 **For example:   
--> perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg JS94.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step all
+-> perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg JS94.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step all  
 -> perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg JS94.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step 6,7 -sp_minus max 
 
 
-Description: This script is used to reconstruct the synthethic yeast SCRaMbLE genome by stLFR technology !
-                 v1.0 2023.03.24 
-    Usage: perl run_Sgrstlfr.pl [-option] <h|help>
+Description: This script is used to reconstruct the synthethic yeast SCRaMbLE genome by stLFR technology !  
+                 v1.0 2023.03.24   
+    Usage: perl run_Sgrstlfr.pl [-option] <h|help>  
 
             --fa            [file]  : <fasta> the unSCRaMbLE genome FASTA [alignment index must!]
             --fq1           [file]  : <fastq1> the stLFR FASTQ1 [inculde:raw_data、split_data、split_clean_data]
@@ -110,5 +110,5 @@ Bamdeal:https://github.com/BGI-shenzhen/BamDeal
 
 stLFR_barcode_split:https://github.com/BGI-Qingdao/stLFR_barcode_split
 
-****if have some bug please contact:
+****if have some bug please contact:  
 pangwending\@genomics.cn    wangyun\@genomics.cn
