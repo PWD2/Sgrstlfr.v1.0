@@ -10,9 +10,9 @@ The program only needs to contain the following basic parameters to run
 
 --fa : The fasta file of the unSCRaMbLE genome that has been indexed.
 
---fq1 : 1-end fastq file of stLFR paired-end sequencing.
+--fq1 :  fastq 1 file of stLFR paired-end sequencing.
 
---fq2 : 2-terminal fastq file of stLFR paired-end sequencing.
+--fq2 :  fastq 2 file of stLFR paired-end sequencing.
 
 --rfcvg : Sequencing depth file for the unSCRaMbLE genome.
 
@@ -27,7 +27,7 @@ all: run all steps [default]; assembly: only run module 7, the process file cont
 
 --chrid : synthetic chromosome name [default:IXR_BACseq]  
 
---t : Number of threads for software comparison to run [default: 4]  
+--t : Number of threads for software to run [default: 4]  
 
 --tools : Enter the relevant software path: including bwa, bowtie2, bamdeal, soapnuke, etc. 
 
@@ -45,7 +45,7 @@ Description: This script is used to reconstruct the synthethic yeast SCRaMbLE ge
             --fq2           [file]  : <fastq2> the stLFR FASTQ2 [inculde:raw_data、split_data、split_clean_data]       
             --rfcvg         [file]  : <refcoverage> the seqence of unSCRaMbLE genome's single site depth
             <basic information [must]>
-            --chrtype       : [liner | cycle ] the chrmosome type [default: cycle]
+            --chrtype       : [linear | cycle ] the chrmosome type [default: cycle]
             --chrid         : the chrid what want to restructure [default: IXR_BACseq]
             --t             : the threads about this script run [default: 4]
             --n             : the output median file and directory name  [default: test]
