@@ -21,7 +21,8 @@ Describe: This script is used to stat the edges/nodes and parse the input for PA
 
 Usage :perl $0 <coverage> <bam> <loxpregion> <sort.gvr> [-option]
         -n                 :   file name of output file [default: parsepath] 
-        -chrid             :   synthetic chromosome ID [default:IXR_BACseq]      
+        -chrid             :   synthetic chromosome ID [default:IXR_BACseq]
+        -chrtype           :   the chrmosome type [default:cycle]      
         -refcover [file]   :   soapcoverage file of reference sample(unscrambled sample) [must]
         -minread           :   minimal split reads for supporting a breakpoint [default: 2]
         -mdep              :   maximal average sequencing deth of copy number = 0 [default: 10] 
@@ -43,11 +44,12 @@ v1.0.1  can do Edge and Node evaluation based on a given break infomation.
     
 USAGE
 my ($coverage,$bam,$loxpregion,$abnorm)=@ARGV;
-my ($prefix,$chrID,$refcover,$minread,$mdep,$mcycle,$cutlen,$beakpoint,$bkpinfo,$outdir,$samtools,$help);
+my ($prefix,$chrID,$chrtype,$refcover,$minread,$mdep,$mcycle,$cutlen,$beakpoint,$bkpinfo,$outdir,$samtools,$help);
 
 GetOptions(
     "n:s"     => \$prefix,
     "chrid:s"      => \$chrID,
+    "chrtype:s"   => \$chrtype,
     "refcover:s"   => \$refcover, 
     "minread:s"    => \$minread,
     "mdep:s"       => \$mdep,
@@ -69,6 +71,7 @@ $mcycle ||= 10;
 $cutlen ||= 500;
 $outdir ||= getcwd;
 $chrID ||='IXR_BACseq';
+$chrtype ||="cycle";
 
 open EDGE, ">$outdir/$prefix.edg" ||die $!;
 open NODE, ">$outdir/$prefix.nod" ||die $!;
@@ -147,12 +150,12 @@ while(<ABN>){
     if($node_side1>$node_side2){                                                                 
       $node = "$node_side2/$node_side1";
     }else{
-    $node = "$node_side1/$node_side2";
+      $node = "$node_side1/$node_side2";
     }                                            
     if (exists $breakpoint{$node}){                                                      
       $breakpoint{$node} ++;
     }else{
-    $breakpoint{$node} = 1;
+      $breakpoint{$node} = 1;
     }    
   }else{ 
     # print "#It's a single node! a illegal reads was ignored...\n";
@@ -183,15 +186,23 @@ foreach (keys %breakpoint){
    	   delete $breakpoint{$nodekey};
    	   next;
      }
+    #  if ($nodeL == $nodeR){
+    #   delete $breakpoint{$nodekey};
+    #   next;
+    #  }
    }else{
-     if ($breakpoint{$nodekey} < $minread){                                  #断点的reads支持数小于设定数值，则删除该断点。
+     if ($breakpoint{$nodekey} < $minread){                                  
       	delete $breakpoint{$nodekey};
         next;}
      ($nodeL,$nodeR) = split /\//,$nodekey;
      if ($nodeR==$nodeL + 1 && ($nodeL%2)==1){
    	    delete $breakpoint{$nodekey};
         next;
-     }    
+     }
+    #  if ($nodeL == $nodeR){
+    #   delete $breakpoint{$nodekey};
+    #   next;
+    #  }    
     
   }
    print "$nodekey\t$breakpoint{$nodekey}\n";
@@ -227,9 +238,9 @@ foreach (keys %breakpoint){
    ## the single reads ##
   if ($ck <2){print "ERROR: Warning! you make a mistake! be carefull the bug3...";}
  }
-
+#p(%points);exit;
 my @newregion = (sort{$a<=>$b} keys %points);            
-#print join (",",@newregion);
+# print join (",",@newregion);
 print "\n";
 
 my $breakpoint_num = @newregion;
@@ -253,8 +264,8 @@ foreach(@newregion){
 	$newsididx{$_} = $newnodeid;
 	$newside{$newnodeid} = $_;
 	$newnodeid ++;	
- }
- 
+}
+# p(%newside);p(%newsididx);
 foreach (keys %breakpoint){
    my ($node_left,$node_right) = split /\//,$_;
    my ($new_node_left,$new_node_right)=(0,0);
@@ -273,7 +284,8 @@ foreach (keys %breakpoint){
   my $newnodekey = "$new_node_left"."/$new_node_right";	
   $newnode{$newnodekey} = $breakpoint{$_};
   print "$newnodekey\t$newnode{$newnodekey}\n";  
- }
+}
+# p(%newnode);
 print '!Step1 done!'."\n";
 print "\n!step2:stat nomal mapping loxp reads on the breakpoint...\n";
 ####stat nomal mapping loxp reads on the breakpoint#######
@@ -282,11 +294,12 @@ foreach my $n(1..$breakpoint_num){
 	  my $nomal_node_left =2*$n-1;
 	  my $nomal_node_right =2*$n;
 	  my $nomal_node_key = "$nomal_node_left"."/$nomal_node_right";
-	  $nomal_node{$nomal_node_key} = "$newside{$nomal_node_left}\t$newside{$nomal_node_right}";
-	 
-	}
-my $nomal_node_stat = statnomalnod($chrID,\%nomal_node,$bam,$samtools);	
+	  $nomal_node{$nomal_node_key} = "$newside{$nomal_node_left}\t$newside{$nomal_node_right}";	 
+}
 
+# p(%nomal_node);exit();
+my $nomal_node_stat = statnomalnod($chrID,\%nomal_node,$bam,$samtools);	
+# p(%$nomal_node_stat);exit;
 foreach (keys %{$nomal_node_stat}){
 	 if(${$nomal_node_stat}{$_} >= $minread){
 	 	  $newnode{$_} = ${$nomal_node_stat}{$_};
@@ -296,12 +309,37 @@ print '!Step2 done!'."\n";
 print "\n!step3:pharse the node information...\n";		
  	
 my @sortnodekeys = sortkey(\%newnode,0);
-
+my @ldex_set;
+# print join("\n",@sortnodekeys)."\n";exit();
 foreach (@sortnodekeys){
+  my ($ld,$rd) = split/\//,$_;
+  push @ldex_set,($ld,$rd);
 	print NODE "$_\t$newnode{$_}\n";
 	print "$_\t$newnode{$_}\n"; 	
 }
-	
+
+my $min_dex = min(@ldex_set);
+my $max_dex = max(@ldex_set);
+if ($min_dex % 2 == 0){
+  $min_dex = $min_dex + 1;
+}else{
+  $min_dex = $min_dex - 1;
+}
+if ($max_dex % 2 ==0){
+  $max_dex = $max_dex + 1;
+}else{
+  $max_dex = $max_dex - 1;
+}
+
+if ($chrtype eq 'cycle'){
+  if ($min_dex == 0){
+    my $ht = $min_dex.'/'.$max_dex;
+    print NODE "$ht\t100\n";
+    print "$ht\t100\n";
+  }
+  
+}
+close NODE;
 print '!Step3 done! '."\n\n";	
 print 'ALL the step of Extract the node is finished!'."\n\n";
 #========================================
@@ -330,9 +368,9 @@ foreach my $i(1..$breakpoint_num){
    	   $edge{$newedge} = "$newregion[$siteL]\t$reflen\t$regionindexL\t$lastindex";     
     }
 }
-
+#p(%edge);exit;
 ####caculate average sequencing depth###
-my %seqdepth = read_coverage($coverage,$chrID);	
+my %seqdepth = read_depth($coverage,$chrID);	
 my %testee_depth;
 my %constant_depth;
 foreach my $edgeid(keys %edge){
@@ -347,7 +385,12 @@ foreach my $edgeid(keys %edge){
  }
  %constant_depth = %testee_depth;
 
-my %ref_seqdepth = readcvg($refcover,$chrID);
+my %ref_seqdepth;
+if ($refcover =~ /depthsingle$/){
+    %ref_seqdepth = readcvg($refcover,$chrID);
+}else{
+    %ref_seqdepth = read_depth($refcover,$chrID);
+}
 my %ref_depth;
 foreach my $edgeid(keys %edge){
   my @edginfo = split /\t/,$edge{$edgeid};  
@@ -363,19 +406,19 @@ foreach (@edge_key){
 	until(exists ${$CN_pvalue}{$_}){${$CN_pvalue}{$_}="NA";}
 	print EDGE "$_\t${$edge_CN}{$_}\t${$CN_pvalue}{$_}\t$constant_depth{$_}\n";
 }
-   
+close EDGE;  
 #============================================    
 #===============sub function=================
 #============================================
 
 ####get split reads mapping information#####
 sub getnod {
-	my ($read_site_m,$read_site_l,$loxp_region,$loxpnod)= @_;  #6377,6343,{'1'=>('IXR_BACseq,1,6326')},{'1'=>(0,1)}
+	my ($read_site_m,$read_site_l,$loxp_region,$loxpnod)= @_;  
 	my $node_side = 0;
-	foreach my $region_index(keys %{$loxp_region}){                           #$region_index=1..44;
-       if ($read_site_m == ${${$loxp_region}{$region_index}}[2]){           #%{$loxp_region}  == %loxp_region  于是   ${${$loxp_region}{$region_index}}[2],为一个数组。该值为6326 end site
-       	  $node_side = ${${$loxpnod}{$region_index}}[1];      	            #如果右端点==loxpregion终点，则取loxpnod中的右端点； 1
-       }elsif($read_site_m == ${${$loxp_region}{$region_index}}[1]){        #如果左端点==loxpregion起点，则取loxpnod中的左端点； 0
+	foreach my $region_index(keys %{$loxp_region}){                           
+       if ($read_site_m == ${${$loxp_region}{$region_index}}[2]){           
+       	  $node_side = ${${$loxpnod}{$region_index}}[1];      	            
+       }elsif($read_site_m == ${${$loxp_region}{$region_index}}[1]){        
        	  $node_side = ${${$loxpnod}{$region_index}}[0];                    #
           # print "Warning! you make a mistake! be carefull the bug1...\n";
        }elsif($read_site_l==${${$loxp_region}{$region_index}}[1]){          #
@@ -424,20 +467,29 @@ sub readcvg{
     $/ ="\n";
     close CVG;
 }
-#### input the coverage file ####
-sub read_coverage{
+##### read bamdeal depth ##################################################
+sub read_depth{
     my ($input,$chrid) = @_;
-    open COVERAGE,$input or die $!;
-    my %cvg;
-    while(<COVERAGE>){
+    $/=">";
+    if ($input =~ /.gz$/){
+        open ING,"gzip -dc $input |" or die $!;
+    }else{
+        open ING,$input or die $!;
+    }
+    my %depth;
+    <ING>;
+    while(<ING>){
         chomp;
-        my ($chr,$point,$depth)=split/\s+/,$_;
-        if ($chr eq $chrid){
-            push @{$cvg{$chrid}},$depth;
+        my @this_set = split/\n/,$_;
+        my $id = shift @this_set;
+        next if ($id !~ /$chrid/);
+        foreach my $line (@this_set){
+            my @point_depth = split/\s+/,$line;
+            push @{$depth{$chrid}},(@point_depth);
         }
     }
-    close COVERAGE;
-    return %cvg;
+    return %depth;
+    close ING;
 }
 ###stat nomal mapping loxp reads on the breakpoint#######
 sub statnomalnod{
@@ -451,7 +503,7 @@ sub statnomalnod{
 	  my $stat_region_right =$site - 31;
 	  push @{$stat_region{$_}},($stat_region_left,$stat_region_right);
 	}
-
+  # p(%stat_region);
   if ($alignment =~ /.sam$/){
     open BAM,$alignment or die $!;
   }else{
@@ -459,10 +511,10 @@ sub statnomalnod{
   }
 	while (<BAM>){
 		 chomp;
-	   my ($chrid,$site)= (split /\s+/,$_)[2,3];
-	   next if ($chrid ne $chrID);
+	   my ($chrid,$site,$map)= (split /\s+/,$_)[2,3,5];
+     next if ($map ne '100M');
 	   foreach (keys %stat_region){
-	   	$nomal_node_stat{$_} ++ if ($site >= ${$stat_region{$_}}[0]&&$site <= ${$stat_region{$_}}[1]);
+	   	$nomal_node_stat{$_} ++ if ($site >= ${$stat_region{$_}}[0] && $site <= ${$stat_region{$_}}[1]);
 	   }
 	 }
 	return (\%nomal_node_stat);	

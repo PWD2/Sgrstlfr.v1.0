@@ -2,7 +2,7 @@
 
 use strict;
 use Data::Printer;
-use Basicread qw(read_edge read_region read_coverage);
+use Basicread qw(read_edge read_region read_depth);
 use List::Util qw/max min sum/;
 use Cwd qw/getcwd/;
 
@@ -10,7 +10,7 @@ my $usage=<<USAGE;
 
 Desciption: This script is used to mersh the loxp_region、edge、and depthsingle !
 
-Usage: perl $0 <edge> <region> <depth> <chrid> <name> <outdir>
+Usage: perl $0 <edge> <region> <depthsite> <chrid> <name> <outdir>
 
 USAGE
 
@@ -18,12 +18,13 @@ my ($edge,$region,$depth,$chr,$name,$outdir)=@ARGV;
 
 die $usage if (!$edge||!$region||!$depth||!$chr);
 
+print 'Start time: '.localtime()."\n";
 $name ||='test';
 $outdir ||=getcwd;
 
 my %edge_hash = read_edge($edge);
 my %region_hash = read_region($region);
-my @depth_set = read_coverage($depth,$chr);
+my @depth_set = read_depth($depth,$chr);
 
 my %result;
 foreach my $keys (keys %edge_hash){
@@ -35,9 +36,9 @@ foreach my $keys (keys %edge_hash){
         my $length = $region_range[2] - $region_range[1] +1;
         my $cover_depth;
         if ($aset[0] == 0){
-            $cover_depth = 0.00 ;
+            $cover_depth = '0.00';
         }else{
-            my @the_depth_range = @depth_set[$region_range[1]-1..$region_range[2]];
+            my @the_depth_range = @depth_set[$region_range[1]..$region_range[2]-1];
             my $sum_depth = sum (@the_depth_range);
             $cover_depth = sprintf("%.2f",$sum_depth/$length);
         }
@@ -51,9 +52,9 @@ foreach my $keys (keys %edge_hash){
         my $length = $max_point - $min_point +1 ;
         my $cover_depth;
         if ($aset[0] == 0){
-            $cover_depth = 0.00;
+            $cover_depth = '0.00';
         }else{
-            my @the_depth_range = @depth_set[$min_point-1..$max_point];
+            my @the_depth_range = @depth_set[$min_point..$max_point-1];
             my $sum_depth = sum (@the_depth_range);
             $cover_depth = sprintf("%.2f",$sum_depth/$length);
         }
@@ -89,6 +90,7 @@ print OUTA '#The uniq edge number:'."$uniq_edge\n";
 print OUTA '#The delete edge number:'."$dele_edge\n";
 
 close OUTA;
+print 'End time: '.localtime()."\n";
 print '###This work is finished!'."\n";
 
 

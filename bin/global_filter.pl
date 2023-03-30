@@ -12,18 +12,18 @@ print 'Start time:'.localtime()."\n";
 my $usage=<<USAGE;
 
     Description: This script is filter the mutiple assembly result by barcode information! 
-    Usage: perl $0 <mutiple-result> <barcode> [-option]
+    Usage: perl $0 <mutiple-result> <info> <barcode> [-option]
 
         -n              :file name
         -o              :outdir
-        -min            :the minnum of the barcode include edge [defacult:3]
-        -max            :the maxnum of the barcode include edge [defacult:7]
-        -wtnod          :the number of diff nod for stat barcode support [defacult: 1]
-        -way            :the filter way for the barcode support num( max or plus) [defacult:max]        
+        -min            :the minnum of the barcode include edge [default:3]
+        -max            :the maxnum of the barcode include edge [default:7]
+        -wtnod          :the number of diff nod for stat barcode support [default: 2]
+        -way            :the filter way for the barcode support num( max or plus) [default:max]        
 
 USAGE
 
-my ($mutiple,$barcode)=@ARGV;
+my ($mutiple,$info,$barcode)=@ARGV;
 my ($minedge,$maxedge,$wtnod,$way,$name,$outdir);
 
 GetOptions(
@@ -35,19 +35,22 @@ GetOptions(
     "way:s" => \$way
 );
 
-die $usage if (@ARGV != 2);
+die $usage if (@ARGV != 3);
 $name ||='test';
 $outdir ||=getcwd;
 $minedge ||='3';
 $maxedge ||='7';
-$wtnod ||='1';
+$wtnod ||='2';
 $way ||='max';
 
-unless (-e $mutiple){
+unless (-s $mutiple){
     print '!!!The mutiple result is Empty!'."\n";
-    exit;
+    print 'It will use the info file to filter !'."\n";
+    unless (-s $info){
+        print 'But the info file is not exists !!! End !'."\n";
+        exit;
+    }
 }
-
 my %barcode_hash;
 open INA,$barcode or die $!;
 while(<INA>){
@@ -62,7 +65,12 @@ close INA;
 
 my %path_nod_set;
 my $nod_number;
-open INB,$mutiple or die $!;
+if (-s $mutiple){
+    open INB,$mutiple or die $!;
+}else{
+    open INB,$info or die $!;
+}
+
 while(<INB>){
     chomp;
     my @nod_set = re_sort_nod($_);
@@ -88,7 +96,7 @@ while($i<$nod_number){
         %path_nod_set = delete_mutiple(\%line_stat,\%path_nod_set,$way);
     }
     if (keys %path_nod_set == 0){
-        print '!!!The all solution is delete! The mutiple maybe warong!!!'."\n";
+        print '!!!The all solution is delete! The mutiple maybe wrong!!!'."\n";
         last;
     }
     if (keys %path_nod_set == 1){
@@ -132,8 +140,8 @@ sub get_dff_place_nod{
         if ($left_dex < 0){
             $left_dex = 0;
         }
-        if ($right_dex > $a_nod_num){
-            $right_dex = $a_nod_num;
+        if ($right_dex >= $a_nod_num){
+            $right_dex = $a_nod_num-1;
         }
         my @aset = @$anod_set[$left_dex..$right_dex];
         my $this_num = find_barcode(\@aset,\%$barcode_infor);
@@ -194,7 +202,7 @@ sub delete_mutiple{
         }
     }elsif($get_way eq 'plus'){
         print '#Remove the BS equal Zero!'."\n";
-        foreach my $this_key (%$input){
+        foreach my $this_key (keys %$input){
             my $this_solu_num = ${$input}{$this_key};
             if ($this_solu_num == 0){
                 delete $new_set{$this_key};
