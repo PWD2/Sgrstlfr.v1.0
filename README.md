@@ -6,8 +6,8 @@ The SCRaMbLE[1] genome has a complex structure, which brings great difficulty to
 
 
 ## The simple useage  
-The tools only needs to contain the following basic parameters to run  
-
+**The tools only needs to contain the following basic parameters to run  
+```
 --fa : The fasta file of the unSCRaMbLE genome that has been indexed.
 
 --fq1 :  fastq 1 file of stLFR paired-end sequencing.
@@ -30,27 +30,27 @@ all: run all steps [default]; assembly: only run module 7, the process file cont
 --t : Number of threads for software to run [default: 4]  
 
 --tools : Enter the relevant software path: including bwa, bowtie2, soapnuke, etc. 
-
+```
 ## For example  
 
 run all step 1-8:  
-1. perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg Rerference.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step all
+```1. perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg Rerference.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step all```
 
 run the step of 6,7  
-2. perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg Rerference.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step 6,7 -sp_minus max 
+```2. perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg Rerference.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step 6,7 -sp_minus max``` 
 
 ## 1.What is the Reference.depthsite.fa.gz file?  
-In this tools we need the sequence depth of the unSCRaMbLE genome.   
+**In this tools we need the sequence depth of the unSCRaMbLE genome.   
 
 1. use following command to get the depth of each site of the unSCRaMbLE genome:  
-    perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 1,2,3,4   
+    ```perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 1,2,3,4```   
 
-or if you don't sequence the referenc genome and the depth of each site maybe can be obtained by the following command:  
+**or if you don't sequence the referenc genome and the depth of each site maybe can be obtained by the following command:  
 
 1. use the wgsim(https://github.com/lh3/wgsim) to get the simulated data of reference genome.  
 
 2. and use the command:  
-   perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 simulated.1.fq.gz -fq2 simulated.2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 3,4  
+   ```perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 simulated.1.fq.gz -fq2 simulated.2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 3,4```  
 
 ## 2.The run_Sgrstlfr.pl script help information  
 Description: This script is used to reconstruct the synthethic yeast SCRaMbLE genome by stLFR technology !    
