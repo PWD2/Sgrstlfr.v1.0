@@ -5,8 +5,8 @@
 The SCRaMbLE[1] genome has a complex structure, which brings great difficulty to conventional assembly methods. Moreover, due to the limitations of the short read length of Syngenor(https://github.com/baderzone/scramble_2016), which is currently developed based on next-generation sequencing technology, 60% of the SCRaMbLE genome cannot be accurately analyzed [2]. However, fully reconstructing the SCRaMbLE genome is of great significance for the downstream application research of synthetic yeast genome. Therefore, in order to solve the above technical problems, we use the virtual long molecular interval sequencing technology developed by BGI, stLFR[3] (single-tube long-read sequencing technology), this technology uses the method of next-generation sequencing to sequence the same barcode ( barcode) long molecules are sequenced, so that the short reads from the same long molecule after sequencing contain the same barcode, that is, the short reads of the same barcode have an adjacent relationship (adjacent relationship), so to some extent, It is equivalent to "long molecule". This software is based on the principle of the proximity relationship of long molecules, which solves the problem of path branching caused by variation in the genome assembly process, and achieves the purpose of accurately assembling the SCRaMbLE genome.
 
 
-## The simple useage
-The tools only needs to contain the following basic parameters to run
+## The simple useage  
+The tools only needs to contain the following basic parameters to run  
 
 --fa : The fasta file of the unSCRaMbLE genome that has been indexed.
 
@@ -31,31 +31,31 @@ all: run all steps [default]; assembly: only run module 7, the process file cont
 
 --tools : Enter the relevant software path: including bwa, bowtie2, soapnuke, etc. 
 
-## For example
+## For example  
 
-run all step 1-8:
+run all step 1-8:  
 1. perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg Rerference.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step all
 
-run the step of 6,7
+run the step of 6,7  
 2. perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg Rerference.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step 6,7 -sp_minus max 
 
-## 1.What is the Reference.depthsite.fa.gz file?
-In this tools we need the sequence depth of the unSCRaMbLE genome. 
+## 1.What is the Reference.depthsite.fa.gz file?  
+In this tools we need the sequence depth of the unSCRaMbLE genome.   
 
-1. use following command to get the depth of each site of the unSCRaMbLE genome:
-    perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 1,2,3,4 
+1. use following command to get the depth of each site of the unSCRaMbLE genome:  
+    perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 1,2,3,4   
 
-or if you don't sequence the referenc genome and the depth of each site maybe can be obtained by the following command:
+or if you don't sequence the referenc genome and the depth of each site maybe can be obtained by the following command:  
 
-1. use the wgsim(https://github.com/lh3/wgsim) to get the simulated data of reference genome.
+1. use the wgsim(https://github.com/lh3/wgsim) to get the simulated data of reference genome.  
 
-2. and use the command:
-   perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 simulated.1.fq.gz -fq2 simulated.2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 3,4
+2. and use the command:  
+   perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 simulated.1.fq.gz -fq2 simulated.2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 3,4  
 
-## 2.The run_Sgrstlfr.pl script help information
-Description: This script is used to reconstruct the synthethic yeast SCRaMbLE genome by stLFR technology !  
-                 v1.0 2023.03.24   
-    Usage: perl run_Sgrstlfr.pl [-option] <h|help>  
+## 2.The run_Sgrstlfr.pl script help information  
+Description: This script is used to reconstruct the synthethic yeast SCRaMbLE genome by stLFR technology !    
+                 v1.0 2023.03.24     
+    Usage: perl run_Sgrstlfr.pl [-option] <h|help>    
 
             --fa            [file]  : <fasta> the unSCRaMbLE genome FASTA [alignment index must!]
             --fq1           [file]  : <fastq1> the stLFR FASTQ1 [inculde:raw_data、split_data、split_clean_data]
@@ -119,7 +119,7 @@ Description: This script is used to reconstruct the synthethic yeast SCRaMbLE ge
             -botie2         : the tools path of bowtie2 [default]
             --h|-help       : display this help 
 
-### 3.Reference:
+### 3.Reference:  
 
 [1]	DYMOND J, BOEKE J. The Saccharomyces cerevisiae SCRaMbLE system and genome minimization [J]. Bioeng Bugs, 2012, 3(3): 168-71.
 
@@ -127,7 +127,7 @@ Description: This script is used to reconstruct the synthethic yeast SCRaMbLE ge
 
 [3]	WANG O, CHIN R, CHENG X, et al. Efficient and unique cobarcoding of second-generation sequencing reads from long DNA molecules enabling cost-effective and accurate sequencing, haplotyping, and de novo assembly [J]. Genome Res, 2019, 29(5): 798-808.
 
-### 4.and some reference software and Thans for the software
+### 4.and some reference software and Thanks for the authors. 
 
 SOAPnuke:https://github.com/BGI-flexlab/SOAPnuke。
 
@@ -137,5 +137,5 @@ Bamdeal:https://github.com/BGI-shenzhen/BamDeal
 
 stLFR_barcode_split:https://github.com/BGI-Qingdao/stLFR_barcode_split
 
-### 5.if have some bug please contact:  
+### 5.if have some bug please contact:    
 pangwending\@genomics.cn    wangyun\@genomics.cn
