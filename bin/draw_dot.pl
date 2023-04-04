@@ -1,12 +1,19 @@
 #!/usr/bin/perl -w
 
 use strict;
+<<<<<<< HEAD
 #use Data::Printer;
 
 my $usage=<<USAGE;
 
     v1.0 2023.04 pangwending\@genomics.cn  draw dot graph from edge and nod file
 
+=======
+use Data::Printer;
+
+my $usage=<<USAGE;
+
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
     perl $0 <edge> <nod> <name> <outdir>
 
 USAGE

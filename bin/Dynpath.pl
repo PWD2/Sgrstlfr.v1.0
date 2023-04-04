@@ -68,6 +68,12 @@ foreach my $filename (@list){
     close INC;
     my $genome_length = sum(values %edge_cn_hash);
     open OUTA,">$outdir/$filename.info" or die $!;
+<<<<<<< HEAD
+=======
+    open OUTB,">$outdir/$filename.dot" or die $!;
+    print OUTB 'digraph dot_graph{'."\n";
+    print OUTB '  rankdir=LR'."\n";
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
     my %dot_set;
     my $stat_number=0;
     my @origin_edge = ($uniq_edge_set[0]);
@@ -90,6 +96,12 @@ foreach my $filename (@list){
                 if (exists $edge_index_hash{$new_nod}){
                     my $new_path = $edge1.'/'.$edge_index_hash{$new_nod};
                     if (control_the_cnv($new_path,\%edge_cn_hash) eq 'T'){
+<<<<<<< HEAD
+=======
+                            # my $line = ("  \"$this_solution_length[-1]\"->\"$edge_index_hash{$new_nod}\"\[label=\"$vert\"\]");
+                            my $line = ("  \"$this_solution_length[-1]\"->\"$edge_index_hash{$new_nod}\"");
+                            $dot_set{$line} = '1';
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
                             push @origin_edge,$new_path;
                     }
                 }
@@ -99,8 +111,16 @@ foreach my $filename (@list){
             last;
         }
     }
+<<<<<<< HEAD
     print 'We get the solution number: '.$stat_number."\n";
     close OUTA;
+=======
+    print OUTB join("\n",keys %dot_set)."\n";
+    print OUTB '}'."\n";
+    print 'We get the solution number: '.$stat_number."\n";
+    close OUTA;
+    close OUTB;
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 }
 
 print '======end:'.localtime.'======='."\n";

@@ -6,7 +6,11 @@ use threads;
 use Array::Utils qw(:all);
 use List::Util qw/max min/;
 use List::MoreUtils qw/indexes uniq /;
+<<<<<<< HEAD
 #use Data::Printer;
+=======
+use Data::Printer;
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 use Getopt::Long;
 
 my ($mutiple_solution,$info,$total_set,$barcode_set) = @ARGV;
@@ -24,7 +28,11 @@ my $usage=<<USAGE;
     -min            : the minnum of the edge [default:3]
     -max            : the maxnum of the edge [default:12]
     -gap_len        : the gap length [default:500]
+<<<<<<< HEAD
     -chr_type       : the chrmosome type [default:linear]
+=======
+    -chr_type       : the chrmosome type [default:liner]
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
     -max_b_len      : the max barcode length precent of genome_length [default:0.5]
     -max_b_dup      : the max edge duplication number in one barcode [default:5]
     -sp_minus       : [max |others]the barcode support decline precent of two solution [default:0.01]
@@ -52,7 +60,11 @@ $perl_threads ||='4';
 $minnum ||=3;
 $maxnum ||=12;
 $gap_length ||=500;
+<<<<<<< HEAD
 $chrtype ||='linear';
+=======
+$chrtype ||='liner';
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 $precen_max ||=0.5;
 $mbdup ||=5;
 $sp_minus ||=0.01;
@@ -123,7 +135,11 @@ my $max_allow_length = int($genome_length*$precen_max);
 # p($first_edge);p($last_edge);p($max_allow_length);p(%region_hash);exit;
 
 
+<<<<<<< HEAD
 print OUTB '!we use the max barcode length: '.$max_allow_length."\t".'max gap length: (10-gap)'.$gap_length."\n";
+=======
+print OUTB '!we use the max barcode length: '.$max_allow_length."\t".'max gap length: (10)'.$gap_length."\n";
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 print OUTB '!This chrmosome type: '.$chrtype."\n";
 print OUTB '!We start to use the barcode type: '.(split/\//,$barcode_set)[-1]."\n\n";
 
@@ -132,6 +148,10 @@ my $useful_barcode=0;
 my %bs_set;
 my %cluster_set;
 open INC,$barcode_set or die $!;
+<<<<<<< HEAD
+=======
+<INC>;
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 while(<INC>){
     chomp;
     my ($barcode,$edge_num,$edge_nod,$nod_num,$node,$bili) = split/\s+/,$_;
@@ -142,7 +162,10 @@ while(<INC>){
             
     }
 }
+<<<<<<< HEAD
 close INC;
+=======
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 my $uniq_barcode=0;
 foreach my $keys (keys %cluster_set){
     my %second_hash = %{$cluster_set{$keys}};
@@ -645,6 +668,7 @@ sub split_two_region{
     my @tail = @copy_set[int($g_index_set[0]+1)..int($ele_num-1)];
     return (\@head,\@tail);
 }
+<<<<<<< HEAD
 ################################################################
 #v2.0
 sub array_permute {
@@ -677,3 +701,26 @@ sub array_permute {
 #         }
 #     }
 # }
+=======
+
+######################################################3
+sub array_permute{
+    my $array_input = shift @_;
+    foreach (@$array_input){
+        if (ref($_) eq 'ARRAY'){
+            push @arr,@$_;
+            my $element = scalar(@$_);
+            array_permute(@_) if (@_);
+            push @all_set,[@arr] unless (@_);
+            for(my $i=0;$i<$element;$i++){
+                pop @arr;
+            }
+        }else{
+            push @arr,$_;
+            array_permute(@_) if (@_);
+            push @all_set,[@arr] unless (@_);
+            pop @arr;
+        }
+    }
+}
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a

@@ -20,7 +20,11 @@ my $usage=<<USAGE;
             --fq2           [file]  : <fastq2> the stLFR FASTQ2 [inculde:raw_data、split_data、split_clean_data]       
             --rfcvg         [file]  : <refcoverage> the seqence of unSCRaMbLE genome's single site depth
             <basic information [must]>
+<<<<<<< HEAD
             --chrtype       : [linear | cycle ] the chrmosome type [default: cycle]
+=======
+            --chrtype       : [liner | cycle ] the chrmosome type [default: cycle]
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
             --chrid         : the chrid what want to restructure [default: IXR_BACseq]
             --t             : the threads about this script run [default: 4]
             --n             : the output median file and directory name  [default: test]
@@ -262,6 +266,10 @@ my $drawdepth_splitmap = "$Bin/bin/drawdepth_splitmap.pl";
 my $targetcoverage = "$Bin/bin/targetcoverage.pl";
 my $getvariareads = "$Bin/bin/getvariareads.pl";
 my $extnodedge = "$Bin/bin/extnodedge.pl";
+<<<<<<< HEAD
+=======
+my $fix_edge = "$Bin/bin/fix_edge.pl";
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 my $draw_dot = "$Bin/bin/draw_dot.pl";
 my $get_barcode_node = "$Bin/bin/get_barcode_node.pl";
 my $mersh_basic_file = "$Bin/bin/mersh_basic_file.pl";

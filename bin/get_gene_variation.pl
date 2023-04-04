@@ -3,7 +3,11 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Data::Dumper;
+<<<<<<< HEAD
 #use Data::Printer;
+=======
+use Data::Printer;
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 use List::Util qw/max min/;
 
 my ( $loxpregfile,$encodfile, $prefix, $outdir) = @ARGV;

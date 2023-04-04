@@ -7,7 +7,11 @@ use FindBin qw ($Bin);
 use lib "$Bin/../lib";
 use lib "$Bin/../lib/perllib";
 use List::Util qw/max min/;
+<<<<<<< HEAD
 #use Data::Printer;
+=======
+use Data::Printer;
+>>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 use Statistics::Distributions;
 use Modelcheck qw /Ttestcheck Utestcheck Zscorecheck Mascheck/;
 use CNstat qw /cnstat/;
