@@ -1,11 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-<<<<<<< HEAD
 #use Data::Printer;
-=======
-use Data::Printer;
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 use Cwd qw/getcwd/;
 use Getopt::Long;
 use threads;
@@ -24,11 +20,7 @@ my $usage=<<USAGE;
 
         -n              :Sample name
         -o              :outdir
-<<<<<<< HEAD
         -chr_type       :[linear | cycle] the chrmosome type
-=======
-        -chr_type       :[liner | cycle] the chrmosome type
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
         -cf             :the genome erro(confict) about the edge and nod [default:0] 
         -fix            :[undef | others]Please input the new duplication type! [example: 14_15,T,T;8_9,T,F (edge,tandem,untandem)]
         -sf             :the fix scaffold set as input [defult:undef]
@@ -107,11 +99,7 @@ while(<INA>){
 }
 close INA;
 my @origin_edge; #genome link start nod 
-<<<<<<< HEAD
 if ($chr_type eq 'linear'){
-=======
-if ($chr_type eq 'liner'){
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
     @origin_edge = ($uniq_edge_set[0]);
 }else{
     @origin_edge = ($uniq_edge_set[1]);
@@ -149,39 +137,21 @@ close INC;
 
 ##### produce the all link-result ###################
 print '#Next start to get the all genome link path set! loading........'."\n";
-<<<<<<< HEAD
 my @all_solution;
 unless (-s "$outdir/$name.info"){
     open OUTC,">$outdir/$name.info" or die $!;
-=======
-my %dot_graph;
-my @all_solution;
-open OUTC,">$outdir/$name.info" or die $!;
-unless (-s "$outdir/$name.info"){
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
     while(1){
         if (@origin_edge >= 5000){
             last;
         }
         my $edge1 = shift @origin_edge;
         my @this_solution_length = split/\//,$edge1;
-<<<<<<< HEAD
         if (scalar(@this_solution_length) > int($this_genome_length) - $confict){
-=======
-        if (scalar(@this_solution_length) > int($this_genome_length/2)){
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
             my $edg_c = $this_genome_length - scalar(@this_solution_length);
             my $nod_c = control_confict($edge1,\%nod_hash_set);
             if ($nod_c + $edg_c <= $confict){
                 push @all_solution,$edge1;
                 print OUTC "$edge1\t$edg_c\t$nod_c\n";
-<<<<<<< HEAD
-=======
-                if ($chr_type eq 'cycle'){
-                    my $line = ("  \"$this_solution_length[-1]\"->\"$this_solution_length[0]\"");
-                    $dot_graph{$line} = '1';
-                }
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
             }
         }
         my $edge_rindex = (split/_/,$edge1)[-1];
@@ -192,11 +162,6 @@ unless (-s "$outdir/$name.info"){
                 if (exists $edge_index_hash{$new_nod}){
                     my $new_path = $edge1.'/'.$edge_index_hash{$new_nod};
                     if (control_the_cnv($new_path,\%edge_cn_hash) eq 'T'){
-<<<<<<< HEAD
-=======
-                        my $line = ("  \"$this_solution_length[-1]\"->\"$edge_index_hash{$new_nod}\"\[label=\"$vert\"\]");
-                        $dot_graph{$line} = '1';   
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
                         push @origin_edge,$new_path;
                     }
                 }
@@ -206,30 +171,9 @@ unless (-s "$outdir/$name.info"){
             last;
         }
     }
-<<<<<<< HEAD
     ### produce more than 5000 solution result 
     if (@origin_edge < 5000){
         print 'The solution less than 5000, end !!!'."\n";
-=======
-    #### produce the dot graph 
-    open OUTD,">$outdir/$name.2.dot" or die $!;
-    print OUTD "digraph $name\_dot_graph{\n";
-    print OUTD '  rankdir=LR'."\n";
-    if ($chr_type eq 'cycle'){
-        print OUTD '  '."\"$uniq_edge_set[1]\"".'[color=red]'."\n";
-    }else{
-        print OUTD '  '."\"$uniq_edge_set[0]\"".'[color=red]'."\n";
-        print OUTD '  '."\"$uniq_edge_set[-1]\"".'[color=red]'."\n";
-    }
-    ### produce more than 5000 solution result 
-    if (@origin_edge < 5000){
-        print 'The solution less than 5000, end !!!'."\n";
-        print OUTD join("\n",keys %dot_graph)."\n";
-        # print OUTD 'labeloc=lt'."\n";
-        print OUTD "label = \"Chromosome length: $this_genome_length\"\n";
-        print OUTD '}'."\n";
-        close OUTD;
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
     }else{
         # four threads prepare
         print 'The solution more than 5000 and it will use '.$perl_threads.' threads to run !'."\n";
@@ -1328,11 +1272,7 @@ sub check_solution{
     my ($path,$the_scaf,$supp_num,$chrmo_type) = @_;
     my $scaf_num = scalar(@$the_scaf);
     my $stat_num=0;
-<<<<<<< HEAD
     if ($chrmo_type eq 'linear'){
-=======
-    if ($chrmo_type eq 'liner'){
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
         foreach my $this_local (@$the_scaf){
             if ($path =~ /$this_local/){
                 $stat_num++;
@@ -1390,10 +1330,6 @@ sub check_solution{
     }
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 ################################################################
 sub checkif_uniq{
     my ($input,$ed_hash) = @_;
@@ -1406,10 +1342,6 @@ sub checkif_uniq{
     return $ct;
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 ##############################################################
 sub fix_the_doublediret{
     my ($head_hash,$tail_hash) = @_;
@@ -1429,15 +1361,11 @@ sub fix_the_doublediret{
     return %$tail_hash;
 }
 
-<<<<<<< HEAD
 # my $first_set = '2_3/4_5/6_7';
 # my $second_set = '4_5/6_7/8_9/10_11';
 # my $myi = 2;
 # my $output = link_headtail($first_set,$second_set,$myi);
 ## output = 2_3/4_5/6_7/8_9/10_11
-=======
-
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 #############sub link_headtail ###################3
 sub link_headtail{
     my ($first,$second,$i) = @_;
@@ -1458,12 +1386,8 @@ sub link_headtail{
     ## second ##
     my @h2 = head $i,@set2;
     ###
-<<<<<<< HEAD
     my $cresult1 = compare_two_array(\@t1,\@h2);
     if ($cresult1  == 1){
-=======
-    if (@t1 ~~ @h2){
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
         my $p1 = ($num1-$i);
         my @link1 = head $p1,@set1;
         my @new = (@link1,@set2);
@@ -1473,12 +1397,8 @@ sub link_headtail{
         my $third = link_reverse($second);
         my @set3 = split/\//,$third;
         my @h3 = head $i,@set3;
-<<<<<<< HEAD
         my $cresult2 = compare_two_array(\@t1,\@h3);
         if($cresult2 == 1){
-=======
-        if(@t1 ~~ @h3){
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
             my @link3 = head $p1,@set1;
             my @new = (@link3,@set3);
             $new_path = join("/",@new);
@@ -1487,7 +1407,6 @@ sub link_headtail{
     }
     return $new_path ;
 }
-<<<<<<< HEAD
 ####################################################
 sub compare_two_array{
     my ($array1,$array2) = @_;
@@ -1505,5 +1424,3 @@ sub compare_two_array{
     }
     return $flag;
 }
-=======
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a

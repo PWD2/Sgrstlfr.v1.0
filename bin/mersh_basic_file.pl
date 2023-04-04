@@ -1,11 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-<<<<<<< HEAD
 #use Data::Printer;
-=======
-use Data::Printer;
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 use Basicread qw(read_edge read_region read_depth);
 use List::Util qw/max min sum/;
 use Cwd qw/getcwd/;

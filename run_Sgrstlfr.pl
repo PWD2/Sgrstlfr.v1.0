@@ -20,11 +20,7 @@ my $usage=<<USAGE;
             --fq2           [file]  : <fastq2> the stLFR FASTQ2 [inculde:raw_data、split_data、split_clean_data]       
             --rfcvg         [file]  : <refcoverage> the seqence of unSCRaMbLE genome's single site depth
             <basic information [must]>
-<<<<<<< HEAD
             --chrtype       : [linear | cycle ] the chrmosome type [default: cycle]
-=======
-            --chrtype       : [liner | cycle ] the chrmosome type [default: cycle]
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
             --chrid         : the chrid what want to restructure [default: IXR_BACseq]
             --t             : the threads about this script run [default: 4]
             --n             : the output median file and directory name  [default: test]
@@ -266,10 +262,6 @@ my $drawdepth_splitmap = "$Bin/bin/drawdepth_splitmap.pl";
 my $targetcoverage = "$Bin/bin/targetcoverage.pl";
 my $getvariareads = "$Bin/bin/getvariareads.pl";
 my $extnodedge = "$Bin/bin/extnodedge.pl";
-<<<<<<< HEAD
-=======
-my $fix_edge = "$Bin/bin/fix_edge.pl";
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 my $draw_dot = "$Bin/bin/draw_dot.pl";
 my $get_barcode_node = "$Bin/bin/get_barcode_node.pl";
 my $mersh_basic_file = "$Bin/bin/mersh_basic_file.pl";
@@ -504,7 +496,7 @@ if ($step8 == 1){
     die "ERROR: The step5 produce $filename.edg file not found in $file_path/$filename.edg!\n" unless -s "$file_path/$filename.edg";
     die "ERROR: The unSCRaMbLE fasta file is not found in $fasta!\n" unless -s $fasta;
     print '!Start to run the step8,loading......'."\n";
-    `perl $translate_path $file_path/$filename.path $file_path/$filename.list.loxpreg $file_path/$filename.edg $fasta -c $chrid -n $filename -o $file_path -a $rtype `;
+    `perl $translate_path $file_path/$filename.path $file_path/$filename.list.loxpreg $file_path/$filename.edg $fasta -c $chrid -n $filename -o $file_path -a $rtype -t $chr_type `;
     `perl $get_gene_variation $file_path/$filename.list.loxpreg $file_path/$filename.path.index $filename $file_path`;
     `perl $SCBINdotplot -prefix $filename -Xencod $file_path/$filename.ref.encod -Yencod $file_path/$filename.path.index -outdir $file_path`;
     print "The erro number:$?\n";

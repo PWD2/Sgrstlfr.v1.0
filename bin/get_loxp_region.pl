@@ -58,6 +58,12 @@ foreach my $keys (keys %seqence){
             print OUTA "$keys\tloxp\tloxpreg\t$start\t$seq_len\t.\t.\t.\t$loxp_index\n";
         }
     }
+    open OUTC,">$outdir/$name.ref.encod" or die $!;
+    my @index_set;
+    foreach my $i (1..$loxp_index-1){
+        push @index_set,$i;
+    }
+    print OUTC "$name\t".join(",",@index_set)."\n";
     if ($loxp_index % 2 == 0){
         $loxp_index = $loxp_index + 3;
     }else{
@@ -65,14 +71,10 @@ foreach my $keys (keys %seqence){
     }
     
 }
-open OUTC,"$outdir/$name.ref.encod" or die $!;
-my @index_set;
-foreach my $i (1..$loxp_index-1){
-    push @index_set,$i;
-}
-print OUTC "$name\t".join(",",@index_set)."\n";
+
 close OUTA;
 close OUTB;
+close OUTC;
 print '!This work is finished!'."\n";
 
 ########## read_fasta ########################

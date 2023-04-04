@@ -21,7 +21,7 @@ my $usage=<<USAGE;
             <fasta>     :the fasta file
             -a          :[all | first]produece the all fasta file or first one [default:first]
             -c          :the chromosome name [must]
-            -t          :[liner | cycle ] the chromosome type 
+            -t          :[linear | cycle ] the chromosome type 
             -n          :the file name
             -o          :the output directory
 
@@ -89,7 +89,7 @@ if ($r_type eq 'all'){
             $new_path = join("/",@new_set);
         }
         my @path_set = path_index($new_path,\%edge_region_set);
-        print OUTB "$new_path\t".join(",",@path_set)."\n";
+        print OUTB "$name\t$new_path\t".join(",",@path_set)."\n";
         my $this_fasta = translate_path($fasta,$new_path,$chr_id);
         my $length = length($this_fasta);
         print OUTA ">$chr_id#$num#$length"."\n";
@@ -119,7 +119,7 @@ if ($r_type eq 'all'){
         $new_path = join("/",@new_set);
     }
     my @path_set = path_index($new_path,\%edge_region_set);
-    print OUTB "$new_path\t".join(",",@path_set)."\n";
+    print OUTB "$name\t$new_path\t".join(",",@path_set)."\n";
     my $this_fasta = translate_path($fasta,$new_path,$chr_id);
     my $length = length($this_fasta);
     print OUTA ">$chr_id#1#$length"."\n";

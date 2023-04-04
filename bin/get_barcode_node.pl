@@ -19,11 +19,7 @@ Description: v1.0 2023.02.13 pwd
 
 Usage: perl $0 <edge> <nod> <loxpregion> <split.sam> <synmap> [-option]
 
-<<<<<<< HEAD
             -t              :[linear | cycle] the chrmosome type [must] 
-=======
-            -t              :[liner | cycle] the chrmosome type [must] 
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
             -isz            :the insert size of the pair-end seqence [default:500]
             -overlap        :the overlap of reads in range! [default:0.8]
             -n              :the file name
@@ -41,11 +37,7 @@ GetOptions(
 
 die $usage if (!$edge||!$nod||!$map||!$synmap||!$loxpregion||!$chrtype);
 
-<<<<<<< HEAD
 $chrtype||='linear';
-=======
-$chrtype||='liner';
->>>>>>> 4995c299facc3f5a9b96a35ade69e745dbe83e6a
 $name ||='test';
 $overlap ||= 0.8;
 $insert_size ||= 500;

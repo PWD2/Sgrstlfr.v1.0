@@ -86,7 +86,7 @@ while (<ENC>){
    
    my @ordcods = split /,/,$encod;
    
-   open OUT, ">$outdir/$id.$prefix.svg" ||die $!;
+   open OUT, ">$outdir/$prefix.cline.svg" ||die $!;
    my $width = $max_segm  * $intseg +  $x_border + $x_border;
    my $height =  @ordcods  * $intseg +  $y_border + $y_border;
    print OUT "<svg height=\"$height\" width=\"$width\" fill = \"#e0ffff\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n";
