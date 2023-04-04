@@ -6,7 +6,7 @@ The SCRaMbLE[1] genome has a complex structure, which brings great difficulty to
 
 
 ## The simple useage  
-**The tools only needs to contain the following basic parameters to run  
+**The tools only needs to contain the following basic parameters to run.**
 ```
 --fa : The fasta file of the unSCRaMbLE genome that has been indexed.
 
@@ -40,12 +40,12 @@ run the step of 6,7
 ```2. perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg Rerference.depthsite.fa.gz -n test -o outdir -chrid IXR_BACseq -chrtype cycle -t 8 -step 6,7 -sp_minus max``` 
 
 ## 1.What is the Reference.depthsite.fa.gz file?  
-**In this tools we need the sequence depth of the unSCRaMbLE genome.   
+**In this tools we need the sequence depth of the unSCRaMbLE genome.**   
 
 1. use following command to get the depth of each site of the unSCRaMbLE genome:  
     ```perl run_Sgrstlfr.pl -fa BY4741chr9RD_SynIXR.fa -fq1 test1.fq.gz -fq2 test2.fq.gz -rfcvg None -n reference -o outdir -chrid IXR_BACseq -chrtype cycle -t 4 -step 1,2,3,4```   
 
-**or if you don't sequence the referenc genome and the depth of each site maybe can be obtained by the following command:  
+**or if you don't sequence the referenc genome and the depth of each site maybe can be obtained by the following command:**  
 
 1. use the wgsim(https://github.com/lh3/wgsim) to get the simulated data of reference genome.  
 
